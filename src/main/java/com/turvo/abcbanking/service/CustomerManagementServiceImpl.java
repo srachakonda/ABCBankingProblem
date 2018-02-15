@@ -1,6 +1,7 @@
 package com.turvo.abcbanking.service;
 
 import com.turvo.abcbanking.dao.CustomerManagementDAO;
+import com.turvo.abcbanking.dao.TokenManagementDAO;
 import com.turvo.abcbanking.model.CustomerDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

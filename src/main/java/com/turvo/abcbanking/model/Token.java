@@ -2,9 +2,11 @@ package com.turvo.abcbanking.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.turvo.abcbanking.enums.AccountType;
+import com.turvo.abcbanking.enums.ServicesOffered;
 import com.turvo.abcbanking.enums.TokenStatus;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Token {
@@ -22,7 +24,19 @@ public class Token {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "counter_id")
+    @JsonIgnore
     private Counter counter;
+
+    @ElementCollection
+    private List<ServicesOffered> servicesOpted;
+
+    public List<ServicesOffered> getServicesOpted() {
+        return servicesOpted;
+    }
+
+    public void setServicesOpted(List<ServicesOffered> servicesOpted) {
+        this.servicesOpted = servicesOpted;
+    }
 
     public int getId() {
         return id;
