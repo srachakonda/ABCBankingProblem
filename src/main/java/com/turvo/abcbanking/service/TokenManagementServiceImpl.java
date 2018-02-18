@@ -1,16 +1,20 @@
 package com.turvo.abcbanking.service;
 
+import com.turvo.abcbanking.dao.CounterManagementDAO;
 import com.turvo.abcbanking.dao.TokenManagementDAO;
+import com.turvo.abcbanking.enums.AccountType;
 import com.turvo.abcbanking.enums.ServicesOffered;
+import com.turvo.abcbanking.model.Counter;
 import com.turvo.abcbanking.model.CustomerDetails;
 import com.turvo.abcbanking.model.Token;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import java.util.List;
+import java.util.*;
 
 @Service
 public class TokenManagementServiceImpl implements TokenManagementService {
@@ -19,9 +23,14 @@ public class TokenManagementServiceImpl implements TokenManagementService {
     @Autowired
     CustomerManagementService customerManagementService;
 
-
     @Autowired
     TokenManagementDAO tokenManagementDAO;
+
+    @Autowired
+    CounterManagementDAO countermanagementDAO;
+
+    PriorityQueue<Counter> counters;
+    List<Token> tokens = new LinkedList<Token>();
 
     @Override
     public Token generateToken(CustomerDetails customerDetails) {
@@ -33,9 +42,66 @@ public class TokenManagementServiceImpl implements TokenManagementService {
         }
 
         Token token = issueToken(customerDetails);
-//        TODO
-        //add to queue for getting it serviced by counters and return response token object
+        token.setCounter(assignTokentoCounter(token));
+        tokenManagementDAO.save(token);
         return token;
+    }
+
+
+    public Counter assignTokentoCounter(Token token) {
+        Counter counterToAssign = getCountertoAssign(token.getPriority());
+        int minIndex = 0;
+        if (!CollectionUtils.isEmpty(counterToAssign.getTokens())) {
+            minIndex = counterToAssign.getTokens().size();
+        }
+        if (minIndex == 0 && counterToAssign.getTokens() == null) {
+            List<Token> counterTokens = new ArrayList<>();
+            counterTokens.add(minIndex, token);
+            counterToAssign.setTokens(counterTokens);
+        } else {
+            counterToAssign.getTokens().add(minIndex, token);
+        }
+        countermanagementDAO.save(counterToAssign);
+        LOG.info("Assigning token" + token.toString() + " to counter: {}" + counterToAssign.toString());
+        return counterToAssign;
+    }
+
+    private Counter getCountertoAssign(AccountType accountType) {
+
+        List<Counter> counters = countermanagementDAO.findByAccountType(accountType);
+
+        if (CollectionUtils.isEmpty(counters)) {
+            LOG.info("No counter available serves this type of service");
+            throw new RuntimeException("No counter available serves this type of service");
+        }
+
+        if (counters.size() == 1) {
+            return counters.get(0);
+        }
+
+        Map<Counter, Integer> counterRankMap = new HashMap<>();
+        for (Counter counter : counters) {
+            int noOfTokensAssigned = 0;
+            if (!CollectionUtils.isEmpty(counter.getTokens())) {
+                noOfTokensAssigned = counter.getTokens().size();
+            }
+            counterRankMap.put(counter, noOfTokensAssigned);
+        }
+        Map.Entry<Counter, Integer> min = null;
+        for (Map.Entry<Counter, Integer> entry : counterRankMap.entrySet()) {
+            if (min == null || min.getValue() > entry.getValue()) {
+                min = entry;
+            }
+        }
+
+        return min.getKey();
+    }
+
+    @Override
+    public List<Token> tokenStatuses() {
+        List<Counter> counters = countermanagementDAO.findAll();
+
+        return null;
     }
 
     private Token issueToken(CustomerDetails customerDetails) {
@@ -47,10 +113,7 @@ public class TokenManagementServiceImpl implements TokenManagementService {
         }
         Token token = new Token();
         token.setPriority(customerDetails.getAccountType());
-        token.setServicesOpted(servicesOpted);
-        //TODO
-        //save generated token and return back to request
-//        tokenManagementDAO.save(token);
+        token.setCustomerId(customerDetails.getCustomerId());
         return token;
     }
 }

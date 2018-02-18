@@ -2,16 +2,15 @@ package com.turvo.abcbanking.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.turvo.abcbanking.enums.AccountType;
-import com.turvo.abcbanking.enums.ServicesOffered;
 import com.turvo.abcbanking.enums.TokenStatus;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 public class Token {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "token_id")
     private int id;
 
     @Enumerated
@@ -27,15 +26,23 @@ public class Token {
     @JsonIgnore
     private Counter counter;
 
-    @ElementCollection
-    private List<ServicesOffered> servicesOpted;
+    @Column
+    private int customerId;
 
-    public List<ServicesOffered> getServicesOpted() {
-        return servicesOpted;
+    public Counter getCounter() {
+        return counter;
     }
 
-    public void setServicesOpted(List<ServicesOffered> servicesOpted) {
-        this.servicesOpted = servicesOpted;
+    public void setCounter(Counter counter) {
+        this.counter = counter;
+    }
+
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
     }
 
     public int getId() {
@@ -60,13 +67,5 @@ public class Token {
 
     public void setPriority(AccountType priority) {
         this.priority = priority;
-    }
-
-    public Counter getCounter() {
-        return counter;
-    }
-
-    public void setCounter(Counter counter) {
-        this.counter = counter;
     }
 }

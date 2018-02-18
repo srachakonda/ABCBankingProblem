@@ -1,7 +1,9 @@
 package com.turvo.abcbanking.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.turvo.abcbanking.enums.AccountType;
 import com.turvo.abcbanking.enums.ServicesOffered;
+import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -13,16 +15,25 @@ public class Counter {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotNull
+    @ElementCollection
     @Enumerated
     @Column
-    private ServicesOffered servicesOffered;
+    private List<ServicesOffered> servicesOffered;
 
-    @OneToMany(mappedBy = "counter", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "counter",cascade = CascadeType.ALL)
+    @Column
     private List<Token> tokens;
 
     @Column
-    private AccountType priority;
+    private AccountType accountType;
+    @JsonIgnore
+    public int getRank() {
+        if (CollectionUtils.isEmpty(tokens)) {
+            return 0;
+        }
+        return tokens.size();
+    }
+
 
     public int getId() {
         return id;
@@ -32,11 +43,11 @@ public class Counter {
         this.id = id;
     }
 
-    public ServicesOffered getServicesOffered() {
+    public List<ServicesOffered> getServicesOffered() {
         return servicesOffered;
     }
 
-    public void setServicesOffered(ServicesOffered servicesOffered) {
+    public void setServicesOffered(List<ServicesOffered> servicesOffered) {
         this.servicesOffered = servicesOffered;
     }
 
@@ -48,11 +59,11 @@ public class Counter {
         this.tokens = tokens;
     }
 
-    public AccountType getPriority() {
-        return priority;
+    public AccountType getAccountType() {
+        return accountType;
     }
 
-    public void setPriority(AccountType priority) {
-        this.priority = priority;
+    public void setAccountType(AccountType accountType) {
+        this.accountType = accountType;
     }
 }

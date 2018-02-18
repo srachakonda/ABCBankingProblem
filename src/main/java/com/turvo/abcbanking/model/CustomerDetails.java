@@ -1,6 +1,5 @@
 package com.turvo.abcbanking.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.turvo.abcbanking.enums.AccountType;
 import com.turvo.abcbanking.enums.ServicesOffered;
 import org.springframework.data.annotation.CreatedDate;
@@ -15,12 +14,10 @@ import java.util.List;
 @Entity
 @Table(name = "customer")
 @EntityListeners(AuditingEntityListener.class)
-@JsonIgnoreProperties(value = {"createdAt", "updatedAt"},
-        allowGetters = true)
 public class CustomerDetails implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long customerId;
+    private int customerId;
 
     @Column
     private String name;
@@ -53,11 +50,11 @@ public class CustomerDetails implements Serializable {
     @LastModifiedDate
     private Date updatedAt;
 
-    public Long getCustomerId() {
+    public int getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(Long customerId) {
+    public void setCustomerId(int customerId) {
         this.customerId = customerId;
     }
 

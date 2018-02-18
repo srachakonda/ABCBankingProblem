@@ -12,13 +12,13 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/counter")
+@RequestMapping("/api")
 public class TokenManagementController {
 
     private final static Logger LOG = LoggerFactory.getLogger(TokenManagementController.class);
 
     @Autowired
-    TokenManagementService tokenManagementService;
+    private TokenManagementService tokenManagementService;
 
     @PostMapping("/issuetoken")
     public Token issueToken(@Valid @RequestBody CustomerDetails customerDetails) {
@@ -27,9 +27,8 @@ public class TokenManagementController {
     }
 
     @GetMapping("/status")
-    public List<Token> tokenCounterStatuses(){
-
-        return null;
+    public List<Token> tokenCounterStatuses() {
+        LOG.info("In tokenCounterStatuses method");
+        return tokenManagementService.tokenStatuses();
     }
-
 }
