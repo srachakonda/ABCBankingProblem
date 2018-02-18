@@ -16,6 +16,10 @@ import org.springframework.util.StringUtils;
 
 import java.util.*;
 
+/**
+ * @author <a href="sampath.rachakonda@imaginea.com">srachakonda</a>
+ * @version $Revision: 1.0$, $Date: 12-Feb-2018
+ */
 @Service
 public class TokenManagementServiceImpl implements TokenManagementService {
     private final static Logger LOG = LoggerFactory.getLogger(TokenManagementServiceImpl.class);
@@ -32,6 +36,10 @@ public class TokenManagementServiceImpl implements TokenManagementService {
     PriorityQueue<Counter> counters;
     List<Token> tokens = new LinkedList<Token>();
 
+    /**
+     * @param customerDetails
+     * @return
+     */
     @Override
     public Token generateToken(CustomerDetails customerDetails) {
         LOG.info("In generateToken method");
@@ -47,7 +55,10 @@ public class TokenManagementServiceImpl implements TokenManagementService {
         return token;
     }
 
-
+    /**
+     * @param token
+     * @return
+     */
     public Counter assignTokentoCounter(Token token) {
         Counter counterToAssign = getCountertoAssign(token.getPriority());
         int minIndex = 0;
@@ -66,6 +77,10 @@ public class TokenManagementServiceImpl implements TokenManagementService {
         return counterToAssign;
     }
 
+    /**
+     * @param accountType
+     * @return
+     */
     private Counter getCountertoAssign(AccountType accountType) {
 
         List<Counter> counters = countermanagementDAO.findByAccountType(accountType);
@@ -97,6 +112,9 @@ public class TokenManagementServiceImpl implements TokenManagementService {
         return min.getKey();
     }
 
+    /**
+     * @return
+     */
     @Override
     public List<Token> tokenStatuses() {
         List<Counter> counters = countermanagementDAO.findAll();

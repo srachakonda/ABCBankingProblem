@@ -11,6 +11,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+/**
+ * @author <a href="sampath.rachakonda@imaginea.com">srachakonda</a>
+ * @version $Revision: 1.0$, $Date: 12-Feb-2018
+ */
+
 @RestController
 @RequestMapping("/api")
 public class TokenManagementController {
@@ -20,12 +25,21 @@ public class TokenManagementController {
     @Autowired
     private TokenManagementService tokenManagementService;
 
+    /**
+     *
+     * @param customerDetails
+     * @return
+     */
     @PostMapping("/issuetoken")
     public Token issueToken(@Valid @RequestBody CustomerDetails customerDetails) {
         LOG.info("In Issue Token method");
         return tokenManagementService.generateToken(customerDetails);
     }
 
+    /**
+     *
+     * @return
+     */
     @GetMapping("/status")
     public List<Token> tokenCounterStatuses() {
         LOG.info("In tokenCounterStatuses method");

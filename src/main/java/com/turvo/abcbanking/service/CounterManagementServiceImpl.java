@@ -16,6 +16,10 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author <a href="sampath.rachakonda@imaginea.com">srachakonda</a>
+ * @version $Revision: 1.0$, $Date: 12-Feb-2018
+ */
 @Service
 public class CounterManagementServiceImpl implements CounterManagementService {
     private final static Logger LOG = LoggerFactory.getLogger(CounterManagementServiceImpl.class);
@@ -39,6 +43,10 @@ public class CounterManagementServiceImpl implements CounterManagementService {
         return countermanagementDAO.findAll();
     }
 
+    /**
+     *
+     * @param counterId
+     */
     @Override
     public void operateCounter(int counterId) {
         Counter counter = countermanagementDAO.findOne(counterId);
@@ -92,18 +100,34 @@ public class CounterManagementServiceImpl implements CounterManagementService {
         }
     }
 
+    /**
+     *
+     * @param customerId
+     */
     private void withdrawlOperation(int customerId) {
         LOG.info("Withdrawal operation performed by: " + customerId);
     }
 
+    /**
+     *
+     * @param customerId
+     */
     private void depositOperation(int customerId) {
         LOG.info("Deposit Operation performed by: " + customerId);
     }
 
+    /**
+     *
+     * @param customerId
+     */
     private void enquiry(int customerId) {
         LOG.info("Enquiry about service by: " + customerId);
     }
 
+    /**
+     *
+     * @param customerId
+     */
     private void accOpening(int customerId) {
         LOG.info("Customer " + customerId + "Opened new account");
     }

@@ -9,6 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
+/**
+ * @author <a href="sampath.rachakonda@imaginea.com">srachakonda</a>
+ * @version $Revision: 1.0$, $Date: 12-Feb-2018
+ */
 public class TokenCounterMapperServiceImpl implements  TokenCounterMapperService{
 
     private final static Logger LOG = LoggerFactory.getLogger(TokenCounterMapperServiceImpl.class);
@@ -16,6 +20,11 @@ public class TokenCounterMapperServiceImpl implements  TokenCounterMapperService
     @Autowired
     CounterManagementDAO countermanagementDAO;
 
+    /**
+     *
+     * @param token
+     * @return
+     */
     @Override
     public Token assignTokenToCounter(Token token) {
         List<Counter> counters = countermanagementDAO.findAll();
@@ -23,8 +32,6 @@ public class TokenCounterMapperServiceImpl implements  TokenCounterMapperService
             LOG.error("Counters not available");
             throw new RuntimeException("Counters not available");
         }
-
-
 
         return null;
     }
