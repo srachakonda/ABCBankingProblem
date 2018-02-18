@@ -87,6 +87,7 @@ public class CounterManagementServiceImpl implements CounterManagementService {
                 throw new RuntimeException("Wrong Service Opted");
             }
             activeToken.setTokenStatus(TokenStatus.COMPLETED);
+            activeToken.setCounter(null);
             tokenManagementDAO.save(activeToken);
         }
     }
