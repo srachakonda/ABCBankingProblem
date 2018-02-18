@@ -26,14 +26,6 @@ public class Counter {
 
     @Column
     private AccountType accountType;
-    @JsonIgnore
-    public int getRank() {
-        if (CollectionUtils.isEmpty(tokens)) {
-            return 0;
-        }
-        return tokens.size();
-    }
-
 
     public int getId() {
         return id;
