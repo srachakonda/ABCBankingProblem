@@ -23,18 +23,31 @@ public class CounterManagementController {
     @Autowired
     private CounterManagementService counterManagementService;
 
+    /**
+     *
+     * @param counter
+     * @return
+     */
     @PostMapping("/addCounter")
     public Counter issueToken(@Valid @RequestBody Counter counter) {
         LOG.info("Inside issueToken method");
         return counterManagementService.addCounter(counter);
     }
 
+    /**
+     *
+     * @return
+     */
     @GetMapping("/counters")
     public List<Counter> getCounters(){
         LOG.info("Inside getCounters method");
         return counterManagementService.getCounters();
     }
 
+    /**
+     *
+     * @param counterId
+     */
     @GetMapping("/operate/{id}")
     public void operate(@PathVariable("id") int counterId){
         LOG.info("Inside operate method");

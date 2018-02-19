@@ -31,6 +31,9 @@ public class Token {
     private Counter counter;
 
     @Column
+    private String comments;
+
+    @Column
     private int customerId;
 
     public Counter getCounter() {
@@ -71,5 +74,13 @@ public class Token {
 
     public void setPriority(AccountType priority) {
         this.priority = priority;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 }

@@ -49,6 +49,10 @@ public class TokenManagementServiceImpl implements TokenManagementService {
             customerManagementService.saveCustomer(customerDetails);
         }
 
+        //check if customer have token in_progress state. If then throw exception stating that he already have one token in pending state
+
+        tokenManagementDAO.findOne(customerDetails.getCustomerId());
+
         Token token = issueToken(customerDetails);
         token.setCounter(assignTokentoCounter(token));
         tokenManagementDAO.save(token);

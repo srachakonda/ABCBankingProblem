@@ -33,6 +33,8 @@ public class CounterManagementServiceImpl implements CounterManagementService {
     @Autowired
     private TokenManagementDAO tokenManagementDAO;
 
+    private boolean addActionItems = false;
+
     @Override
     public Counter addCounter(Counter counter) {
         return countermanagementDAO.save(counter);
@@ -44,7 +46,6 @@ public class CounterManagementServiceImpl implements CounterManagementService {
     }
 
     /**
-     *
      * @param counterId
      */
     @Override
@@ -64,6 +65,7 @@ public class CounterManagementServiceImpl implements CounterManagementService {
             for (ServicesOffered servicesOffered1 : new ArrayList<>(servicesOffered)) {
                 if (servicesOffered1.equals(ServicesOffered.WITHDRAW)) {
                     withdrawlOperation(customerId);
+                    activeToken = addComments("Withdrawal operation performed by customer", activeToken);
                 } else if (servicesOffered1.equals(ServicesOffered.DEPOSIT)) {
                     depositOperation(customerId);
                 } else if (servicesOffered1.equals(ServicesOffered.ENQUIRY)) {
@@ -84,8 +86,12 @@ public class CounterManagementServiceImpl implements CounterManagementService {
             ServicesOffered servicesOfferedObj = servicesOffered.get(0);
             if (servicesOfferedObj.equals(ServicesOffered.WITHDRAW)) {
                 withdrawlOperation(customerId);
+                activeToken = addComments("Withdrawal operation performed by customer", activeToken);
+                addActionItemstoCustomer(customerDetails, servicesOffered);
+                customerManagementDAO.save(customerDetails);
             } else if (servicesOfferedObj.equals(ServicesOffered.DEPOSIT)) {
                 depositOperation(customerId);
+                activeToken = addComments("Deposit Operation performed by customer", activeToken);
             } else if (servicesOfferedObj.equals(ServicesOffered.ENQUIRY)) {
                 enquiry(customerId);
             } else if (servicesOfferedObj.equals(ServicesOffered.ACC_OPENING)) {
@@ -94,14 +100,50 @@ public class CounterManagementServiceImpl implements CounterManagementService {
                 LOG.info("Wrong Service Opted");
                 throw new RuntimeException("Wrong Service Opted");
             }
-            activeToken.setTokenStatus(TokenStatus.COMPLETED);
-            activeToken.setCounter(null);
+            if (addActionItems) {
+                Counter newCounterAssigned = tokenManagementService.assignTokentoCounter(activeToken);
+                activeToken.setTokenStatus(TokenStatus.FORWARDED);
+                activeToken.setCounter(newCounterAssigned);
+                tokenManagementDAO.save(activeToken);
+                addActionItems = false;
+            } else {
+                activeToken.setTokenStatus(TokenStatus.COMPLETED);
+                activeToken.setCounter(null);
+            }
             tokenManagementDAO.save(activeToken);
         }
     }
 
     /**
-     *
+     * @param customerDetails
+     * @param servicesOpted
+     * @return
+     */
+    private CustomerDetails addActionItemstoCustomer(CustomerDetails customerDetails, List<ServicesOffered> servicesOpted) {
+        addActionItems = true;
+        servicesOpted.add(ServicesOffered.ENQUIRY);
+        customerDetails.setServicesOpted(servicesOpted);
+        return customerDetails;
+    }
+
+    /**
+     * @param comments
+     * @param token
+     * @return
+     */
+    private Token addComments(String comments, Token token) {
+        String existingComments = token.getComments();
+        if (existingComments.isEmpty() || existingComments == null) {
+            token.setComments(comments);
+        } else {
+            StringBuffer existingCommentsBuffer = new StringBuffer(existingComments);
+            existingCommentsBuffer.append(comments);
+            token.setComments(existingCommentsBuffer.toString());
+        }
+        return token;
+    }
+
+    /**
      * @param customerId
      */
     private void withdrawlOperation(int customerId) {
@@ -109,7 +151,6 @@ public class CounterManagementServiceImpl implements CounterManagementService {
     }
 
     /**
-     *
      * @param customerId
      */
     private void depositOperation(int customerId) {
@@ -117,7 +158,6 @@ public class CounterManagementServiceImpl implements CounterManagementService {
     }
 
     /**
-     *
      * @param customerId
      */
     private void enquiry(int customerId) {
@@ -125,7 +165,6 @@ public class CounterManagementServiceImpl implements CounterManagementService {
     }
 
     /**
-     *
      * @param customerId
      */
     private void accOpening(int customerId) {

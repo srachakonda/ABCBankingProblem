@@ -40,10 +40,6 @@ public class CustomerDetails implements Serializable {
     @Column
     private List<ServicesOffered> servicesOpted;
 
-/*    @Transient
-    @Column
-    private List<ServicesOffered> servicesOpted;*/
-
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
