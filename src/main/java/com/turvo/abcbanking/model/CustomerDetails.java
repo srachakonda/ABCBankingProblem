@@ -2,6 +2,8 @@ package com.turvo.abcbanking.model;
 
 import com.turvo.abcbanking.enums.AccountType;
 import com.turvo.abcbanking.enums.ServicesOffered;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -17,7 +19,6 @@ import java.util.List;
  */
 @Entity
 @Table(name = "customer")
-@EntityListeners(AuditingEntityListener.class)
 public class CustomerDetails implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,13 +43,17 @@ public class CustomerDetails implements Serializable {
 
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    @CreatedDate
+    @CreationTimestamp
     private Date createdAt;
 
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    @LastModifiedDate
+    @UpdateTimestamp
     private Date updatedAt;
+
+    public boolean isNewCustomer() {
+        return this.getCustomerId() == 0 ? true : false;
+    }
 
     public int getCustomerId() {
         return customerId;

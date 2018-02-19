@@ -1,12 +1,14 @@
 package com.turvo.abcbanking.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.turvo.abcbanking.enums.AccountType;
 import com.turvo.abcbanking.enums.ServicesOffered;
-import org.springframework.util.CollectionUtils;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -14,6 +16,7 @@ import java.util.List;
  * @version $Revision: 1.0$, $Date: 12-Feb-2018
  */
 @Entity
+@Table(name = "counter")
 public class Counter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,12 +27,38 @@ public class Counter {
     @Column
     private List<ServicesOffered> servicesOffered;
 
-    @OneToMany(mappedBy = "counter",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "counter", cascade = CascadeType.ALL)
     @Column
     private List<Token> tokens;
 
     @Column
     private AccountType accountType;
+
+    @Column(nullable = false, updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
+    private Date createdAt;
+
+    @Column(nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    @UpdateTimestamp
+    private Date updatedAt;
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 
     public int getId() {
         return id;

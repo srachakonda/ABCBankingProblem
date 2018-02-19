@@ -4,6 +4,7 @@ import com.turvo.abcbanking.dao.CounterManagementDAO;
 import com.turvo.abcbanking.dao.TokenManagementDAO;
 import com.turvo.abcbanking.enums.AccountType;
 import com.turvo.abcbanking.enums.ServicesOffered;
+import com.turvo.abcbanking.enums.TokenStatus;
 import com.turvo.abcbanking.model.Counter;
 import com.turvo.abcbanking.model.CustomerDetails;
 import com.turvo.abcbanking.model.Token;
@@ -43,16 +44,17 @@ public class TokenManagementServiceImpl implements TokenManagementService {
     @Override
     public Token generateToken(CustomerDetails customerDetails) {
         LOG.info("In generateToken method");
-        //TODO
-        //check if new customer if yes save customer details and proceed further
-        if (true) {
+        if (customerDetails.isNewCustomer()) {
             customerManagementService.saveCustomer(customerDetails);
         }
 
         //check if customer have token in_progress state. If then throw exception stating that he already have one token in pending state
-
-        tokenManagementDAO.findOne(customerDetails.getCustomerId());
-
+//        tokenManagementDAO.findOne(customerDetails.getCustomerId());
+   /*     List<Counter> counters = tokenManagementDAO.findByIDandStatus(customerDetails.getCustomerId(), TokenStatus.IN_PROGRESS);
+        if(counters.size()>0){
+            throw new RuntimeException("Cannot create new token when one token is in progress")
+        }
+*/
         Token token = issueToken(customerDetails);
         token.setCounter(assignTokentoCounter(token));
         tokenManagementDAO.save(token);
