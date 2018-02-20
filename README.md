@@ -12,6 +12,8 @@ http://localhost:8080/swagger-ui.html
 
 # ER Diagram
 
+https://github.com/srachakonda/ABCBankingProblem/DBModel.mwb
+
 # Class Diagram
 
 # RESTFul API's
