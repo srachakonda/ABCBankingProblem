@@ -1,11 +1,10 @@
 package com.turvo.abcbanking.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.turvo.abcbanking.enums.AccountType;
 import com.turvo.abcbanking.enums.ServicesOffered;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -34,6 +33,16 @@ public class Counter {
     @Column
     private AccountType accountType;
 
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "branch_id")
+    @JsonIgnore
+    private Branch branch;
+
+    @OneToOne
+    private Operator operator;
+
+
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
@@ -43,6 +52,22 @@ public class Counter {
     @Temporal(TemporalType.TIMESTAMP)
     @UpdateTimestamp
     private Date updatedAt;
+
+    public Operator getOperator() {
+        return operator;
+    }
+
+    public void setOperator(Operator operator) {
+        this.operator = operator;
+    }
+
+    public Branch getBranch() {
+        return branch;
+    }
+
+    public void setBranch(Branch branch) {
+        this.branch = branch;
+    }
 
     public Date getCreatedAt() {
         return createdAt;

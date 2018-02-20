@@ -5,6 +5,7 @@ import com.turvo.abcbanking.dao.CustomerManagementDAO;
 import com.turvo.abcbanking.dao.TokenManagementDAO;
 import com.turvo.abcbanking.enums.ServicesOffered;
 import com.turvo.abcbanking.enums.TokenStatus;
+import com.turvo.abcbanking.exception.ABCBankingException;
 import com.turvo.abcbanking.model.Counter;
 import com.turvo.abcbanking.model.CustomerDetails;
 import com.turvo.abcbanking.model.Token;
@@ -74,7 +75,7 @@ public class CounterManagementServiceImpl implements CounterManagementService {
                     accOpening(customerId);
                 } else {
                     LOG.info("Wrong Service Opted");
-                    throw new RuntimeException("Wrong Service Opted");
+                    throw new ABCBankingException("Wrong Service Opted");
                 }
                 servicesOffered.remove(servicesOffered1);
                 Counter newCounterAssigned = tokenManagementService.assignTokentoCounter(activeToken);
@@ -98,7 +99,7 @@ public class CounterManagementServiceImpl implements CounterManagementService {
                 accOpening(customerId);
             } else {
                 LOG.info("Wrong Service Opted");
-                throw new RuntimeException("Wrong Service Opted");
+                throw new ABCBankingException("Wrong Service Opted");
             }
             if (addActionItems) {
                 Counter newCounterAssigned = tokenManagementService.assignTokentoCounter(activeToken);

@@ -11,7 +11,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import static springfox.documentation.builders.PathSelectors.regex;
 
-
+/**
+ * @author <a href="sampath.rachakonda@imaginea.com">srachakonda</a>
+ * @version $Revision: 1.0$, $Date: 19-Feb-2018
+ */
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {

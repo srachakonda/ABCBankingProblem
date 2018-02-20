@@ -5,6 +5,7 @@ import com.turvo.abcbanking.dao.TokenManagementDAO;
 import com.turvo.abcbanking.enums.AccountType;
 import com.turvo.abcbanking.enums.ServicesOffered;
 import com.turvo.abcbanking.enums.TokenStatus;
+import com.turvo.abcbanking.exception.ABCBankingException;
 import com.turvo.abcbanking.model.Counter;
 import com.turvo.abcbanking.model.CustomerDetails;
 import com.turvo.abcbanking.model.Token;
@@ -52,7 +53,7 @@ public class TokenManagementServiceImpl implements TokenManagementService {
 //        tokenManagementDAO.findOne(customerDetails.getCustomerId());
    /*     List<Counter> counters = tokenManagementDAO.findByIDandStatus(customerDetails.getCustomerId(), TokenStatus.IN_PROGRESS);
         if(counters.size()>0){
-            throw new RuntimeException("Cannot create new token when one token is in progress")
+            throw new ABCBankingException("Cannot create new token when one token is in progress")
         }
 */
         Token token = issueToken(customerDetails);
@@ -93,7 +94,7 @@ public class TokenManagementServiceImpl implements TokenManagementService {
 
         if (CollectionUtils.isEmpty(counters)) {
             LOG.info("No counter available serves this type of service");
-            throw new RuntimeException("No counter available serves this type of service");
+            throw new ABCBankingException("No counter available serves this type of service");
         }
 
         if (counters.size() == 1) {
