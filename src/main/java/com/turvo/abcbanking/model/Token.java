@@ -23,7 +23,7 @@ public class Token {
 
     @Enumerated
     @Column
-    private TokenStatus tokenStatus = TokenStatus.IN_PROGRESS;
+    private TokenStatus tokenStatus = TokenStatus.IN_QUEUE;
 
     @Enumerated
     @Column
@@ -37,7 +37,7 @@ public class Token {
     @Column
     private String comments;
 
-    @Column
+    @Column(name = "customer_id")
     private int customerId;
 
     @Column(nullable = false, updatable = false)

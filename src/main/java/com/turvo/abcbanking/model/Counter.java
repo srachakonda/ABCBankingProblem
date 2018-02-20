@@ -39,7 +39,7 @@ public class Counter {
     @JsonIgnore
     private Branch branch;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Operator operator;
 
 

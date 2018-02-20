@@ -71,10 +71,22 @@ public class CounterManagementController {
         return operatorManagementService.addOperator(operator);
     }
 
+    @GetMapping("/operators")
+    public List<Operator> getOperators(){
+        LOG.info("Inside Get Operators method");
+        return operatorManagementService.getOperators();
+    }
+
     @PostMapping("/addBranch")
     public Branch addBranch(@Valid @RequestBody Branch branch) {
         LOG.info("Inside Add Branch method");
         return branchManagementService.addBranch(branch);
+    }
+
+    @GetMapping("branches")
+    public List<Branch> getBranches(){
+        LOG.info("Inside Get Branches method");
+        return branchManagementService.getBranches();
     }
 
 }

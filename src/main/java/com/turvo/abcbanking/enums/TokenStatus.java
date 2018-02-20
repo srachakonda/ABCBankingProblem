@@ -5,5 +5,5 @@ package com.turvo.abcbanking.enums;
  * @version $Revision: 1.0$, $Date: 12-Feb-2018
  */
 public enum TokenStatus {
-    IN_PROGRESS, COMPLETED, CANCELLED, FORWARDED;
+    IN_QUEUE,IN_PROGRESS, COMPLETED, CANCELLED, FORWARDED;
 }

@@ -15,7 +15,7 @@ public interface TokenManagementService {
 
     public Token generateToken(CustomerDetails customerDetails);
 
-    public List<Token> tokenStatuses();
+    public List<Counter> tokenStatuses();
 
     public Counter assignTokentoCounter(Token token);
 

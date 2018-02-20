@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author <a href="sampath.rachakonda@imaginea.com">srachakonda</a>
  * @version $Revision: 1.0$, $Date: 20-Feb-2018
@@ -22,5 +24,11 @@ public class OperatorManagementServiceImpl implements OperatorManagementService 
     public Operator addOperator(Operator operator) {
         LOG.info("Inside Add Operator method");
         return operatorManagementDAO.save(operator);
+    }
+
+    @Override
+    public List<Operator> getOperators() {
+        LOG.info("Inside Get Operators method");
+        return operatorManagementDAO.findAll();
     }
 }

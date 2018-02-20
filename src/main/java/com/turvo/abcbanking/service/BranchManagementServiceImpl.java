@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class BranchManagementServiceImpl implements BranchManagementService {
 
@@ -19,5 +21,11 @@ public class BranchManagementServiceImpl implements BranchManagementService {
     public Branch addBranch(Branch branch) {
         LOG.info("Inside add branch method");
         return branchManagementDAO.save(branch);
+    }
+
+    @Override
+    public List<Branch> getBranches() {
+        LOG.info("Inside get branches method");
+        return branchManagementDAO.findAll();
     }
 }

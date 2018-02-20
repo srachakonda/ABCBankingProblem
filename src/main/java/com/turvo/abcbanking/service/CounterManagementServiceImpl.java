@@ -3,6 +3,7 @@ package com.turvo.abcbanking.service;
 import com.turvo.abcbanking.dao.CounterManagementDAO;
 import com.turvo.abcbanking.dao.CustomerManagementDAO;
 import com.turvo.abcbanking.dao.TokenManagementDAO;
+import com.turvo.abcbanking.enums.Role;
 import com.turvo.abcbanking.enums.ServicesOffered;
 import com.turvo.abcbanking.enums.TokenStatus;
 import com.turvo.abcbanking.exception.ABCBankingException;
@@ -108,7 +109,16 @@ public class CounterManagementServiceImpl implements CounterManagementService {
                 tokenManagementDAO.save(activeToken);
                 addActionItems = false;
             } else {
-                activeToken.setTokenStatus(TokenStatus.COMPLETED);
+                Role role = activeToken.getCounter().getOperator().getRole();
+                if (role.equals(Role.OPERATOR) || role.equals(Role.MANAGER)) {
+                    activeToken.setTokenStatus(TokenStatus.COMPLETED);
+                } else {
+                    Counter newCounterAssigned = tokenManagementService.assignTokentoCounter(activeToken);
+                    activeToken.setTokenStatus(TokenStatus.FORWARDED);
+                    activeToken.setCounter(newCounterAssigned);
+                    tokenManagementDAO.save(activeToken);
+                    addActionItems = true;
+                }
                 activeToken.setCounter(null);
             }
             tokenManagementDAO.save(activeToken);

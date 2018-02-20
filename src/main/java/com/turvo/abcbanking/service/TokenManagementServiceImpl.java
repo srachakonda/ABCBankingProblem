@@ -50,12 +50,11 @@ public class TokenManagementServiceImpl implements TokenManagementService {
         }
 
         //check if customer have token in_progress state. If then throw exception stating that he already have one token in pending state
-//        tokenManagementDAO.findOne(customerDetails.getCustomerId());
-   /*     List<Counter> counters = tokenManagementDAO.findByIDandStatus(customerDetails.getCustomerId(), TokenStatus.IN_PROGRESS);
-        if(counters.size()>0){
-            throw new ABCBankingException("Cannot create new token when one token is in progress")
+        List<Token> tokens = tokenManagementDAO.findByCustomerId(customerDetails.getCustomerId());
+        for (Token token : tokens) {
+            if (token.getTokenStatus().equals(TokenStatus.IN_PROGRESS) || token.getTokenStatus().equals(TokenStatus.IN_QUEUE))
+                throw new ABCBankingException("Cannot create new token when one token is in progress");
         }
-*/
         Token token = issueToken(customerDetails);
         token.setCounter(assignTokentoCounter(token));
         tokenManagementDAO.save(token);
@@ -79,7 +78,6 @@ public class TokenManagementServiceImpl implements TokenManagementService {
         } else {
             counterToAssign.getTokens().add(minIndex, token);
         }
-        countermanagementDAO.save(counterToAssign);
         LOG.info("Assigning token" + token.toString() + " to counter: {}" + counterToAssign.toString());
         return counterToAssign;
     }
@@ -123,10 +121,10 @@ public class TokenManagementServiceImpl implements TokenManagementService {
      * @return
      */
     @Override
-    public List<Token> tokenStatuses() {
+    public List<Counter> tokenStatuses() {
         List<Counter> counters = countermanagementDAO.findAll();
 
-        return null;
+        return counters;
     }
 
     private Token issueToken(CustomerDetails customerDetails) {

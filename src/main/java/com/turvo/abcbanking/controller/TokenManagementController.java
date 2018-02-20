@@ -1,5 +1,6 @@
 package com.turvo.abcbanking.controller;
 
+import com.turvo.abcbanking.model.Counter;
 import com.turvo.abcbanking.model.CustomerDetails;
 import com.turvo.abcbanking.model.Token;
 import com.turvo.abcbanking.service.TokenManagementService;
@@ -26,7 +27,6 @@ public class TokenManagementController {
     private TokenManagementService tokenManagementService;
 
     /**
-     *
      * @param customerDetails
      * @return
      */
@@ -37,11 +37,10 @@ public class TokenManagementController {
     }
 
     /**
-     *
      * @return
      */
     @GetMapping("/status")
-    public List<Token> tokenCounterStatuses() {
+    public List<Counter> tokenCounterStatuses() {
         LOG.info("In tokenCounterStatuses method");
         return tokenManagementService.tokenStatuses();
     }
