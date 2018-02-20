@@ -29,3 +29,4 @@ http://localhost:8080/swagger-ui.html
 1. In Current Implementation its using a queue to operate tokens for each counter. This can be enhanced by adding any distributed Queue approach(RabbitMQ). Not extended it to this case as at any given point of time when token is issued it should be assigned to a counter.
 2. Change counter operator to operate on both Regular and Priority Tokens by adding priority queue's.
 3. For multi counter services once a service is completed can prioritoize his next service than adding it to end of queue for processing next service to enhance customer experience.
+4. Remove JPARepository and add CustomDAOImpl to allow DB Change without much code changes.
