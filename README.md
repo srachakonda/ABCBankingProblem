@@ -12,7 +12,7 @@ http://localhost:8080/swagger-ui.html
 
 # ER Diagram
 
-https://github.com/srachakonda/ABCBankingProblem/DBModel.mwb
+![dbmodel-1](https://user-images.githubusercontent.com/20350389/36408614-7ffb8852-162c-11e8-9f16-46265dd68fe6.png)
 
 # Class Diagram
 
