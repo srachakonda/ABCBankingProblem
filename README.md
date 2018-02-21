@@ -6,7 +6,7 @@ Tech Stack:
 2. MySQL - 5.7.21-0ubuntu0.16.04.1
 3. Java -1.8
 
-# Swagger Integration for RESTFul API's Documentation
+# Swagger Integration for RESTful API's Documentation
 
 http://localhost:8080/swagger-ui.html
 
@@ -18,7 +18,7 @@ http://localhost:8080/swagger-ui.html
 
 Will Add soon making some minor changes to classes
 
-# RESTFul API's
+# RESTful API's
 
 **/api**
 

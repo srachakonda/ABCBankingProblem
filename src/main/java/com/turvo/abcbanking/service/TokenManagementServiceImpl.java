@@ -7,7 +7,7 @@ import com.turvo.abcbanking.enums.ServicesOffered;
 import com.turvo.abcbanking.enums.TokenStatus;
 import com.turvo.abcbanking.exception.ABCBankingException;
 import com.turvo.abcbanking.model.Counter;
-import com.turvo.abcbanking.model.CustomerDetails;
+import com.turvo.abcbanking.model.Customer;
 import com.turvo.abcbanking.model.Token;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,33 +39,30 @@ public class TokenManagementServiceImpl implements TokenManagementService {
     List<Token> tokens = new LinkedList<Token>();
 
     /**
-     * @param customerDetails
+     * @param customer
      * @return
      */
     @Override
-    public Token generateToken(CustomerDetails customerDetails) {
+    public Token generateToken(Customer customer) {
         LOG.info("In generateToken method");
-        if (customerDetails.isNewCustomer()) {
-            customerManagementService.saveCustomer(customerDetails);
+        if (customer.isNewCustomer()) {
+            customerManagementService.saveCustomer(customer);
         }
-
         //check if customer have token in_progress state. If then throw exception stating that he already have one token in pending state
-        List<Token> tokens = tokenManagementDAO.findByCustomerId(customerDetails.getCustomerId());
+        List<Token> tokens = tokenManagementDAO.findByCustomerId(customer.getCustomerId());
         for (Token token : tokens) {
             if (token.getTokenStatus().equals(TokenStatus.IN_PROGRESS) || token.getTokenStatus().equals(TokenStatus.IN_QUEUE))
                 throw new ABCBankingException("Cannot create new token when one token is in progress");
         }
-        Token token = issueToken(customerDetails);
-        token.setCounter(assignTokentoCounter(token));
+        Token token = issueToken(customer);
+        token.setCounter(assignTokenToCounter(token));
         tokenManagementDAO.save(token);
         return token;
     }
 
-    /**
-     * @param token
-     * @return
-     */
-    public Counter assignTokentoCounter(Token token) {
+    @Override
+    public Counter assignTokenToCounter(Token token) {
+        LOG.info("In assign token to counter method");
         Counter counterToAssign = getCountertoAssign(token.getPriority());
         int minIndex = 0;
         if (!CollectionUtils.isEmpty(counterToAssign.getTokens())) {
@@ -87,7 +84,7 @@ public class TokenManagementServiceImpl implements TokenManagementService {
      * @return
      */
     private Counter getCountertoAssign(AccountType accountType) {
-
+        LOG.info("In Get Counter to Assign method");
         List<Counter> counters = countermanagementDAO.findByAccountType(accountType);
 
         if (CollectionUtils.isEmpty(counters)) {
@@ -118,16 +115,10 @@ public class TokenManagementServiceImpl implements TokenManagementService {
     }
 
     /**
+     * @param customerDetails
      * @return
      */
-    @Override
-    public List<Counter> tokenStatuses() {
-        List<Counter> counters = countermanagementDAO.findAll();
-
-        return counters;
-    }
-
-    private Token issueToken(CustomerDetails customerDetails) {
+    private Token issueToken(Customer customerDetails) {
         LOG.info("In issueToken method");
         List<ServicesOffered> servicesOpted = customerDetails.getServicesOpted();
         if (StringUtils.isEmpty(customerDetails.getServicesOpted())) {

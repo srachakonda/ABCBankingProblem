@@ -11,8 +11,8 @@ import java.util.List;
  * @author <a href="sampath.rachakonda@imaginea.com">srachakonda</a>
  * @version $Revision: 1.0$, $Date: 12-Feb-2018
  */
-public interface TokenManagementDAO extends CrudRepository<Token, Integer> {
+public interface TokenManagementDAO extends CrudRepository<Token, Long> {
 
     @Query(value = "SELECT * from token WHERE customer_id = :customerId", nativeQuery = true)
-    public List<Token> findByCustomerId(@Param("customerId")int customerId);
+    public List<Token> findByCustomerId(@Param("customerId")Long customerId);
 }

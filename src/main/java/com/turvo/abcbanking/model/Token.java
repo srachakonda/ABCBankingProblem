@@ -7,6 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -15,11 +16,13 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "token")
-public class Token {
+public class Token implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "token_id")
-    private int id;
+    private Long id;
 
     @Enumerated
     @Column
@@ -38,7 +41,7 @@ public class Token {
     private String comments;
 
     @Column(name = "customer_id")
-    private int customerId;
+    private Long customerId;
 
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -74,19 +77,20 @@ public class Token {
         this.counter = counter;
     }
 
-    public int getCustomerId() {
+
+    public Long getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(int customerId) {
+    public void setCustomerId(Long customerId) {
         this.customerId = customerId;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

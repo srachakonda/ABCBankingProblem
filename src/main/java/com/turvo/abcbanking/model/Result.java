@@ -1,10 +1,14 @@
 package com.turvo.abcbanking.model;
 
+import java.io.Serializable;
+
 /**
  * @author <a href="sampath.rachakonda@imaginea.com">srachakonda</a>
  * @version $Revision: 1.0$, $Date: 20-Feb-2018
  */
-public class Result {
+public class Result implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private String status;
 

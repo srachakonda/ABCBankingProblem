@@ -3,16 +3,17 @@ package com.turvo.abcbanking.controller;
 import com.turvo.abcbanking.model.Branch;
 import com.turvo.abcbanking.model.Counter;
 import com.turvo.abcbanking.model.Operator;
+import com.turvo.abcbanking.model.Result;
 import com.turvo.abcbanking.service.BranchManagementService;
 import com.turvo.abcbanking.service.CounterManagementService;
 import com.turvo.abcbanking.service.OperatorManagementService;
+import com.turvo.abcbanking.util.BuildResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 /**
  * @author <a href="sampath.rachakonda@imaginea.com">srachakonda</a>
@@ -38,18 +39,18 @@ public class CounterManagementController {
      * @return
      */
     @PostMapping("/addCounter")
-    public Counter issueToken(@Valid @RequestBody Counter counter) {
+    public Result issueToken(@Valid @RequestBody Counter counter) {
         LOG.info("Inside issueToken method");
-        return counterManagementService.addCounter(counter);
+        return BuildResponse.buildSuccessResponse(counterManagementService.addCounter(counter));
     }
 
     /**
      * @return
      */
     @GetMapping("/counters")
-    public List<Counter> getCounters() {
+    public Result getCounters() {
         LOG.info("Inside getCounters method");
-        return counterManagementService.getCounters();
+        return BuildResponse.buildSuccessResponse(counterManagementService.getCounters());
     }
 
     /**
@@ -66,27 +67,36 @@ public class CounterManagementController {
      * @return
      */
     @PostMapping("/addOperator")
-    public Operator addOperator(@Valid @RequestBody Operator operator) {
+    public Result addOperator(@Valid @RequestBody Operator operator) {
         LOG.info("Inside Add Operator method");
-        return operatorManagementService.addOperator(operator);
+        return BuildResponse.buildSuccessResponse(operatorManagementService.addOperator(operator));
     }
 
+    /**
+     * @return
+     */
     @GetMapping("/operators")
-    public List<Operator> getOperators(){
+    public Result getOperators() {
         LOG.info("Inside Get Operators method");
-        return operatorManagementService.getOperators();
+        return BuildResponse.buildSuccessResponse(operatorManagementService.getOperators());
     }
 
+    /**
+     * @param branch
+     * @return
+     */
     @PostMapping("/addBranch")
-    public Branch addBranch(@Valid @RequestBody Branch branch) {
+    public Result addBranch(@Valid @RequestBody Branch branch) {
         LOG.info("Inside Add Branch method");
-        return branchManagementService.addBranch(branch);
+        return BuildResponse.buildSuccessResponse(branchManagementService.addBranch(branch));
     }
 
-    @GetMapping("branches")
-    public List<Branch> getBranches(){
+    /**
+     * @return
+     */
+    @GetMapping("/branches")
+    public Result getBranches() {
         LOG.info("Inside Get Branches method");
-        return branchManagementService.getBranches();
+        return BuildResponse.buildSuccessResponse(branchManagementService.getBranches());
     }
-
 }

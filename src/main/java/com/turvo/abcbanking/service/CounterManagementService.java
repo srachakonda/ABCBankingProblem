@@ -13,5 +13,5 @@ public interface CounterManagementService {
 
     List<Counter> getCounters();
 
-    void operateCounter(int counterId);
+    void operateCounter(long counterId);
 }

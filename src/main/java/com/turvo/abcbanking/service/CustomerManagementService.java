@@ -1,6 +1,6 @@
 package com.turvo.abcbanking.service;
 
-import com.turvo.abcbanking.model.CustomerDetails;
+import com.turvo.abcbanking.model.Customer;
 
 /**
  * @author <a href="sampath.rachakonda@imaginea.com">srachakonda</a>
@@ -8,5 +8,5 @@ import com.turvo.abcbanking.model.CustomerDetails;
  */
 public interface CustomerManagementService {
 
-    public boolean saveCustomer(CustomerDetails customerDetails);
+    public boolean saveCustomer(Customer customerDetails);
 }

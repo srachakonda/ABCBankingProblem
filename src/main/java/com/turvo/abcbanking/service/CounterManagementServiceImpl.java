@@ -8,7 +8,7 @@ import com.turvo.abcbanking.enums.ServicesOffered;
 import com.turvo.abcbanking.enums.TokenStatus;
 import com.turvo.abcbanking.exception.ABCBankingException;
 import com.turvo.abcbanking.model.Counter;
-import com.turvo.abcbanking.model.CustomerDetails;
+import com.turvo.abcbanking.model.Customer;
 import com.turvo.abcbanking.model.Token;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,7 +51,7 @@ public class CounterManagementServiceImpl implements CounterManagementService {
      * @param counterId
      */
     @Override
-    public void operateCounter(int counterId) {
+    public void operateCounter(long counterId) {
         Counter counter = countermanagementDAO.findOne(counterId);
         List<Token> tokens = counter.getTokens();
         Token activeToken = tokens.get(0);
@@ -59,8 +59,8 @@ public class CounterManagementServiceImpl implements CounterManagementService {
             LOG.info("No Tokens to Process in Queue");
             return;
         }
-        int customerId = activeToken.getCustomerId();
-        CustomerDetails customerDetails = customerManagementDAO.findOne(customerId);
+        Long customerId = activeToken.getCustomerId();
+        Customer customerDetails = customerManagementDAO.findOne(customerId);
         List<ServicesOffered> servicesOffered = customerDetails.getServicesOpted();
 
         if (servicesOffered.size() > 1) {
@@ -79,7 +79,7 @@ public class CounterManagementServiceImpl implements CounterManagementService {
                     throw new ABCBankingException("Wrong Service Opted");
                 }
                 servicesOffered.remove(servicesOffered1);
-                Counter newCounterAssigned = tokenManagementService.assignTokentoCounter(activeToken);
+                Counter newCounterAssigned = tokenManagementService.assignTokenToCounter(activeToken);
                 activeToken.setTokenStatus(TokenStatus.FORWARDED);
                 activeToken.setCounter(newCounterAssigned);
                 tokenManagementDAO.save(activeToken);
@@ -103,7 +103,7 @@ public class CounterManagementServiceImpl implements CounterManagementService {
                 throw new ABCBankingException("Wrong Service Opted");
             }
             if (addActionItems) {
-                Counter newCounterAssigned = tokenManagementService.assignTokentoCounter(activeToken);
+                Counter newCounterAssigned = tokenManagementService.assignTokenToCounter(activeToken);
                 activeToken.setTokenStatus(TokenStatus.FORWARDED);
                 activeToken.setCounter(newCounterAssigned);
                 tokenManagementDAO.save(activeToken);
@@ -113,7 +113,7 @@ public class CounterManagementServiceImpl implements CounterManagementService {
                 if (role.equals(Role.OPERATOR) || role.equals(Role.MANAGER)) {
                     activeToken.setTokenStatus(TokenStatus.COMPLETED);
                 } else {
-                    Counter newCounterAssigned = tokenManagementService.assignTokentoCounter(activeToken);
+                    Counter newCounterAssigned = tokenManagementService.assignTokenToCounter(activeToken);
                     activeToken.setTokenStatus(TokenStatus.FORWARDED);
                     activeToken.setCounter(newCounterAssigned);
                     tokenManagementDAO.save(activeToken);
@@ -130,7 +130,7 @@ public class CounterManagementServiceImpl implements CounterManagementService {
      * @param servicesOpted
      * @return
      */
-    private CustomerDetails addActionItemstoCustomer(CustomerDetails customerDetails, List<ServicesOffered> servicesOpted) {
+    private Customer addActionItemstoCustomer(Customer customerDetails, List<ServicesOffered> servicesOpted) {
         addActionItems = true;
         servicesOpted.add(ServicesOffered.ENQUIRY);
         customerDetails.setServicesOpted(servicesOpted);
@@ -157,28 +157,28 @@ public class CounterManagementServiceImpl implements CounterManagementService {
     /**
      * @param customerId
      */
-    private void withdrawlOperation(int customerId) {
+    private void withdrawlOperation(long customerId) {
         LOG.info("Withdrawal operation performed by: " + customerId);
     }
 
     /**
      * @param customerId
      */
-    private void depositOperation(int customerId) {
+    private void depositOperation(long customerId) {
         LOG.info("Deposit Operation performed by: " + customerId);
     }
 
     /**
      * @param customerId
      */
-    private void enquiry(int customerId) {
+    private void enquiry(long customerId) {
         LOG.info("Enquiry about service by: " + customerId);
     }
 
     /**
      * @param customerId
      */
-    private void accOpening(int customerId) {
+    private void accOpening(long customerId) {
         LOG.info("Customer " + customerId + "Opened new account");
     }
 }

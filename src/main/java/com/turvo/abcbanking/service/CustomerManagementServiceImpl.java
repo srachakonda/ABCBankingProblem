@@ -1,7 +1,7 @@
 package com.turvo.abcbanking.service;
 
 import com.turvo.abcbanking.dao.CustomerManagementDAO;
-import com.turvo.abcbanking.model.CustomerDetails;
+import com.turvo.abcbanking.model.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +20,7 @@ public class CustomerManagementServiceImpl implements CustomerManagementService 
      * @return
      */
     @Override
-    public boolean saveCustomer(CustomerDetails customerDetails) {
+    public boolean saveCustomer(Customer customerDetails) {
         customerManagementDAO.save(customerDetails);
         return true;
     }
