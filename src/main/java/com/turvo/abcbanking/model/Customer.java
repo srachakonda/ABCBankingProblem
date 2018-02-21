@@ -4,9 +4,6 @@ import com.turvo.abcbanking.enums.AccountType;
 import com.turvo.abcbanking.enums.ServicesOffered;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -20,9 +17,12 @@ import java.util.List;
 @Entity
 @Table(name = "customer")
 public class CustomerDetails implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int customerId;
+    private Long customerId;
 
     @Column
     private String name;
@@ -55,11 +55,11 @@ public class CustomerDetails implements Serializable {
         return this.getCustomerId() == 0 ? true : false;
     }
 
-    public int getCustomerId() {
+    public Long getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(int customerId) {
+    public void setCustomerId(Long customerId) {
         this.customerId = customerId;
     }
 

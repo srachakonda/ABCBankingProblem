@@ -16,8 +16,84 @@ http://localhost:8080/swagger-ui.html
 
 # Class Diagram
 
+Will Add soon making some minor changes to classes
+
 # RESTFul API's
- will update soon making some minor changes to API's
+
+**/api**
+
+1. **/issuetoken (Method: POST)**
+
+- To create token for each customer as per his account type(priority/regular). 
+- If customer is new user then customer details will be persisted first and generates token.
+- If customer is existing user then token will be generated.
+- If customer opts for multiple services then once one service gets completed token will be reassigned to another counter to serve next services.
+
+Request Body:
+
+{ 
+
+	"name":"Sampath Imaginea",
+    "phoneNumber":9154869675,
+    "accountType":"PRIORITY",
+    "address":"Banjara Hills",
+    "servicesOpted":["WITHDRAW","DEPOSIT"]
+} 
+
+**/api/counter**
+
+1. URL: **/counters (Method: GET)**
+
+- Lists down all counters and respective tokens assigned.
+
+2. URL: **/operate/{id} (Method: GET)**
+
+- Used by counter operator to operate services for each customer on token basis based on priority.
+
+3. URL: **/addCounter (Method: POST)**
+
+- To add counter to serve tokens.
+
+Request Body:
+
+{
+
+	"servicesOffered":[ "WITHDRAW"],
+	"accountType":"PRIORITY",
+	"branch":1,
+	"operator":1
+}
+  
+4. URL: **/addOperator (Method: POST)**
+
+- To add operator to operate on token generated.
+
+Request Body:
+
+{
+
+	"role":"MANAGER",
+	"branch":1
+}
+
+5. URL: **/operators (Method: GET)**
+
+- Lists down available operators to serve customers.
+
+6. URL: **/addBranch (Method: POST)**
+
+- To add bank branch to serve customer tokens.
+
+Request Body:
+
+{
+
+	"name":"Jubilee Hills"
+}
+
+7. URL: **/branches (Method: GET)**
+
+- Lists down current available branches to serve customers.
 
 # Assumptions
 1. For new customer, customer details will be saved into database and then token will be issued and assigned to counter.
