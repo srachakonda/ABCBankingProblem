@@ -43,6 +43,15 @@ public class Branch implements Serializable {
     @UpdateTimestamp
     private Date updatedAt;
 
+    public Branch(){
+
+    }
+
+    public Branch(String name, Long id){
+        this.id=id;
+        this.name=name;
+    }
+
     public Date getCreatedAt() {
         return createdAt;
     }

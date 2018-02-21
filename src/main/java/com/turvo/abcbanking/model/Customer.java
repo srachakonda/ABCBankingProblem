@@ -52,7 +52,7 @@ public class Customer implements Serializable {
     private Date updatedAt;
 
     public boolean isNewCustomer() {
-        return this.getCustomerId() == 0 ? true : false;
+        return this.getCustomerId()==null ? true : false;
     }
 
     public Long getCustomerId() {
