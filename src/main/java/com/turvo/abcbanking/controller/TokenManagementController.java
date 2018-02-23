@@ -29,6 +29,7 @@ public class TokenManagementController {
     private TokenManagementService tokenManagementService;
 
     /**
+     * IssueToken method is used to generate token and assign it to counter
      * @param customer
      * @return
      */

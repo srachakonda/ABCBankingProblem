@@ -57,6 +57,17 @@ public class Counter implements Serializable {
     @UpdateTimestamp
     private Date updatedAt;
 
+    public Counter() {
+    }
+
+    public Counter(List<ServicesOffered> servicesOffered, AccountType accountType, Branch branch, Operator operator, List<Token> tokens) {
+        this.servicesOffered = servicesOffered;
+        this.accountType = accountType;
+        this.branch = branch;
+        this.operator = operator;
+        this.tokens=tokens;
+    }
+
     public Operator getOperator() {
         return operator;
     }

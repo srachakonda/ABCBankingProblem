@@ -53,6 +53,16 @@ public class Token implements Serializable {
     @UpdateTimestamp
     private Date updatedAt;
 
+    public Token() {
+    }
+
+    public Token(TokenStatus tokenStatus, AccountType priority, String comments) {
+
+        this.tokenStatus = tokenStatus;
+        this.priority = priority;
+        this.comments = comments;
+    }
+
     public Date getCreatedAt() {
         return createdAt;
     }

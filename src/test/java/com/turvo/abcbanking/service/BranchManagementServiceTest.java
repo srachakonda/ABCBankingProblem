@@ -16,7 +16,7 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ABCBankingApplication.class)
-public class BranchManagementServiceImplTest {
+public class BranchManagementServiceTest {
 
     @Autowired
     private BranchManagementService branchManagementService;
@@ -44,6 +44,7 @@ public class BranchManagementServiceImplTest {
         branches.add(branch3);
         Mockito.when(managementDAOmock.findAll()).thenReturn(branches);
         Assert.assertEquals(branches.get(0).getId(), branchManagementService.getBranches().get(0).getId());
+        //we can assert with asserEquals(list1,list2) for list comparisions
     }
 
 }

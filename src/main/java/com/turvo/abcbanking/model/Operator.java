@@ -32,6 +32,15 @@ public class Operator implements Serializable {
     @CreationTimestamp
     private Date createdAt;
 
+    public Operator() {
+
+    }
+
+    public Operator(Role role, Branch branch) {
+        this.role = role;
+        this.branch = branch;
+    }
+
     public Date getCreatedAt() {
         return createdAt;
     }
