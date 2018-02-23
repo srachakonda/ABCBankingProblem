@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 /**
+ * Counter Management Service to add counter/operator and get counters/operators
  * @author <a href="sampath.rachakonda@imaginea.com">srachakonda</a>
  * @version $Revision: 1.0$, $Date: 12-Feb-2018
  */
@@ -35,6 +36,7 @@ public class CounterManagementController {
     private BranchManagementService branchManagementService;
 
     /**
+     * Issues Token based on customer details supplied
      * @param counter
      * @return
      */
@@ -45,6 +47,7 @@ public class CounterManagementController {
     }
 
     /**
+     * Returns list of counters available to service
      * @return
      */
     @GetMapping("/counters")
@@ -54,6 +57,7 @@ public class CounterManagementController {
     }
 
     /**
+     * Operator can operate counter by supplying counter id
      * @param counterId
      */
     @GetMapping("/operate/{id}")
@@ -63,6 +67,7 @@ public class CounterManagementController {
     }
 
     /**
+     * Add more Operators
      * @param operator
      * @return
      */
@@ -73,6 +78,7 @@ public class CounterManagementController {
     }
 
     /**
+     * Returns list of operators available to serve customers
      * @return
      */
     @GetMapping("/operators")
@@ -82,6 +88,7 @@ public class CounterManagementController {
     }
 
     /**
+     * Add new branch
      * @param branch
      * @return
      */
@@ -92,6 +99,7 @@ public class CounterManagementController {
     }
 
     /**
+     * Returls list of branches available
      * @return
      */
     @GetMapping("/branches")

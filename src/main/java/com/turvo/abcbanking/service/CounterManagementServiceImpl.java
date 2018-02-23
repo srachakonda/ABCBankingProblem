@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * To operate on counter related services
+ *
  * @author <a href="sampath.rachakonda@imaginea.com">srachakonda</a>
  * @version $Revision: 1.0$, $Date: 12-Feb-2018
  */
@@ -37,17 +39,30 @@ public class CounterManagementServiceImpl implements CounterManagementService {
 
     private boolean addActionItems = false;
 
+    /**
+     * Saves Counter to DB
+     *
+     * @param counter
+     * @return
+     */
     @Override
     public Counter addCounter(Counter counter) {
         return countermanagementDAO.save(counter);
     }
 
+    /**
+     * Returns list of counters available
+     *
+     * @return
+     */
     @Override
     public List<Counter> getCounters() {
         return countermanagementDAO.findAll();
     }
 
     /**
+     * To Operate on counter by Operator
+     *
      * @param counterId
      */
     @Override
@@ -126,6 +141,8 @@ public class CounterManagementServiceImpl implements CounterManagementService {
     }
 
     /**
+     * Operator can add extra action items to customer if needed
+     *
      * @param customerDetails
      * @param servicesOpted
      * @return
@@ -138,6 +155,8 @@ public class CounterManagementServiceImpl implements CounterManagementService {
     }
 
     /**
+     * Operator can add comments on token
+     *
      * @param comments
      * @param token
      * @return
@@ -155,6 +174,8 @@ public class CounterManagementServiceImpl implements CounterManagementService {
     }
 
     /**
+     * Withdrawl operation and can add more business logic here as needed
+     *
      * @param customerId
      */
     private void withdrawlOperation(long customerId) {
@@ -162,6 +183,8 @@ public class CounterManagementServiceImpl implements CounterManagementService {
     }
 
     /**
+     * Deposit operation and can add more business logic here as needed
+     *
      * @param customerId
      */
     private void depositOperation(long customerId) {
@@ -169,6 +192,8 @@ public class CounterManagementServiceImpl implements CounterManagementService {
     }
 
     /**
+     * Enquiry operation and can add more business logic here as needed
+     *
      * @param customerId
      */
     private void enquiry(long customerId) {
@@ -176,6 +201,8 @@ public class CounterManagementServiceImpl implements CounterManagementService {
     }
 
     /**
+     * Acc opening operation and can add more business logic here as needed
+     *
      * @param customerId
      */
     private void accOpening(long customerId) {

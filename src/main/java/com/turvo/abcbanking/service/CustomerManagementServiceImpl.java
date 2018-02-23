@@ -15,7 +15,7 @@ public class CustomerManagementServiceImpl implements CustomerManagementService 
     CustomerManagementDAO customerManagementDAO;
 
     /**
-     *
+     * Saves customer details to database
      * @param customerDetails
      * @return
      */

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 /**
+ * REST API to issue token
  * @author <a href="sampath.rachakonda@imaginea.com">srachakonda</a>
  * @version $Revision: 1.0$, $Date: 12-Feb-2018
  */

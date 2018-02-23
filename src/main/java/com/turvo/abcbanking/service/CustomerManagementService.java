@@ -8,5 +8,10 @@ import com.turvo.abcbanking.model.Customer;
  */
 public interface CustomerManagementService {
 
+    /**
+     * Save customer details in DB
+     * @param customerDetails
+     * @return
+     */
     public boolean saveCustomer(Customer customerDetails);
 }

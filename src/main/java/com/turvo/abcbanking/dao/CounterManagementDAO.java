@@ -12,6 +12,11 @@ import java.util.List;
  */
 public interface CounterManagementDAO extends JpaRepository<Counter, Long> {
 
+    /**
+     * Retunrs list of Counters based on account type regular/priority
+     * @param accountType
+     * @return
+     */
     List<Counter> findByAccountType(AccountType accountType);
 
 }

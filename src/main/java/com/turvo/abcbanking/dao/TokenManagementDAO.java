@@ -13,6 +13,11 @@ import java.util.List;
  */
 public interface TokenManagementDAO extends CrudRepository<Token, Long> {
 
+    /**
+     * Returns all tokens based on customer id
+     * @param customerId
+     * @return
+     */
     @Query(value = "SELECT * from token WHERE customer_id = :customerId", nativeQuery = true)
     public List<Token> findByCustomerId(@Param("customerId")Long customerId);
 }

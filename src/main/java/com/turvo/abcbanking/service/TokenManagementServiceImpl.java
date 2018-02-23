@@ -39,7 +39,7 @@ public class TokenManagementServiceImpl implements TokenManagementService {
     List<Token> tokens = new LinkedList<Token>();
 
     /**
-     *
+     * Generates Token and forwards to assign it to counter available
      * @param customer
      * @return
      */
@@ -61,6 +61,11 @@ public class TokenManagementServiceImpl implements TokenManagementService {
         return token;
     }
 
+    /**
+     * Assigns token to respective counter based on services requested
+     * @param token
+     * @return
+     */
     @Override
     public Counter assignTokenToCounter(Token token) {
         LOG.info("In assign token to counter method");
@@ -81,6 +86,7 @@ public class TokenManagementServiceImpl implements TokenManagementService {
     }
 
     /**
+     * Returns counter to assign to token based on business logic
      * @param accountType
      * @return
      */
@@ -116,6 +122,7 @@ public class TokenManagementServiceImpl implements TokenManagementService {
     }
 
     /**
+     * Issues Token by creating new Token based on customer details
      * @param customerDetails
      * @return
      */
