@@ -91,7 +91,7 @@ public class CounterManagementServiceImpl implements CounterManagementService {
                     accOpening(customerId);
                 } else {
                     LOG.info("Wrong Service Opted");
-                    throw new ABCBankingException("Wrong Service Opted");
+                    throw new ABCBankingException();
                 }
                 servicesOffered.remove(servicesOffered1);
                 Counter newCounterAssigned = tokenManagementService.assignTokenToCounter(activeToken);
@@ -115,7 +115,7 @@ public class CounterManagementServiceImpl implements CounterManagementService {
                 accOpening(customerId);
             } else {
                 LOG.info("Wrong Service Opted");
-                throw new ABCBankingException("Wrong Service Opted");
+                throw new ABCBankingException();
             }
             if (addActionItems) {
                 Counter newCounterAssigned = tokenManagementService.assignTokenToCounter(activeToken);

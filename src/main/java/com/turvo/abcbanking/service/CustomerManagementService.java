@@ -13,5 +13,5 @@ public interface CustomerManagementService {
      * @param customerDetails
      * @return
      */
-    public boolean saveCustomer(Customer customerDetails);
+    boolean saveCustomer(Customer customerDetails);
 }

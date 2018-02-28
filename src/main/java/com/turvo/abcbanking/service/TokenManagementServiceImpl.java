@@ -3,7 +3,6 @@ package com.turvo.abcbanking.service;
 import com.turvo.abcbanking.dao.CounterManagementDAO;
 import com.turvo.abcbanking.dao.TokenManagementDAO;
 import com.turvo.abcbanking.enums.AccountType;
-import com.turvo.abcbanking.enums.ServicesOffered;
 import com.turvo.abcbanking.enums.TokenStatus;
 import com.turvo.abcbanking.exception.ABCBankingException;
 import com.turvo.abcbanking.model.Counter;
@@ -16,7 +15,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author <a href="sampath.rachakonda@imaginea.com">srachakonda</a>
@@ -27,21 +29,24 @@ public class TokenManagementServiceImpl implements TokenManagementService {
     private final static Logger LOG = LoggerFactory.getLogger(TokenManagementServiceImpl.class);
 
     @Autowired
-    CustomerManagementService customerManagementService;
+    private CustomerManagementService customerManagementService;
 
     @Autowired
-    TokenManagementDAO tokenManagementDAO;
+    private TokenManagementDAO tokenManagementDAO;
 
     @Autowired
-    CounterManagementDAO countermanagementDAO;
+    private CounterManagementDAO countermanagementDAO;
 
-    PriorityQueue<Counter> counters;
-    List<Token> tokens = new LinkedList<Token>();
+/*
+    private PriorityQueue<Counter> counters;
+    private List<Token> tokens = new LinkedList<Token>();
+*/
 
     /**
      * Generates Token and forwards to assign it to counter available
-     * @param customer
-     * @return
+     *
+     * @param customer customer details will be passed
+     * @return Token object
      */
     @Override
     public Token generateToken(Customer customer) {
@@ -52,8 +57,10 @@ public class TokenManagementServiceImpl implements TokenManagementService {
         //check if customer have token in_progress state. If then throw exception stating that he already have one token in pending state
         List<Token> tokens = tokenManagementDAO.findByCustomerId(customer.getCustomerId());
         for (Token token : tokens) {
-            if (token.getTokenStatus().equals(TokenStatus.IN_PROGRESS) || token.getTokenStatus().equals(TokenStatus.IN_QUEUE))
-                throw new ABCBankingException("Cannot create new token when one token is in progress");
+            if (token.getTokenStatus().equals(TokenStatus.IN_PROGRESS) || token.getTokenStatus().equals(TokenStatus.IN_QUEUE)) {
+                LOG.info("Cannot create new token when one token is in progress");
+                throw new ABCBankingException();
+            }
         }
         Token token = issueToken(customer);
         token.setCounter(assignTokenToCounter(token));
@@ -63,8 +70,9 @@ public class TokenManagementServiceImpl implements TokenManagementService {
 
     /**
      * Assigns token to respective counter based on services requested
-     * @param token
-     * @return
+     *
+     * @param token Toke details to be passed
+     * @return Counter object
      */
     @Override
     public Counter assignTokenToCounter(Token token) {
@@ -87,8 +95,9 @@ public class TokenManagementServiceImpl implements TokenManagementService {
 
     /**
      * Returns counter to assign to token based on business logic
-     * @param accountType
-     * @return
+     *
+     * @param accountType Priority or Regular
+     * @return Counter object
      */
     private Counter getCountertoAssign(AccountType accountType) {
         LOG.info("In Get Counter to Assign method");
@@ -96,7 +105,7 @@ public class TokenManagementServiceImpl implements TokenManagementService {
 
         if (CollectionUtils.isEmpty(counters)) {
             LOG.info("No counter available serves this type of service");
-            throw new ABCBankingException("No counter available serves this type of service");
+            throw new ABCBankingException();
         }
 
         if (counters.size() == 1) {
@@ -111,24 +120,30 @@ public class TokenManagementServiceImpl implements TokenManagementService {
             }
             counterRankMap.put(counter, noOfTokensAssigned);
         }
-        Map.Entry<Counter, Integer> min = null;
+        Map.Entry<Counter, Integer> minMap = null;
         for (Map.Entry<Counter, Integer> entry : counterRankMap.entrySet()) {
-            if (min == null || min.getValue() > entry.getValue()) {
-                min = entry;
+            if (minMap == null || minMap.getValue() > entry.getValue()) {
+                minMap = entry;
             }
         }
 
-        return min.getKey();
+        if (minMap != null) {
+            return minMap.getKey();
+        } else {
+            LOG.info("No Counters to process token");
+            throw new ABCBankingException();
+        }
     }
 
     /**
      * Issues Token by creating new Token based on customer details
-     * @param customerDetails
-     * @return
+     *
+     * @param customerDetails pass customer details object
+     * @return Token object
      */
     private Token issueToken(Customer customerDetails) {
         LOG.info("In issueToken method");
-        List<ServicesOffered> servicesOpted = customerDetails.getServicesOpted();
+//        List<ServicesOffered> servicesOpted = customerDetails.getServicesOpted();
         if (StringUtils.isEmpty(customerDetails.getServicesOpted())) {
             LOG.info("No Services opted by customer");
             throw new IllegalArgumentException("No Services Selected by customer");
