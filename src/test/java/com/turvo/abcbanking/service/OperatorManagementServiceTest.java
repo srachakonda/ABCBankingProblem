@@ -25,8 +25,7 @@ public class OperatorManagementServiceTest {
 
     @MockBean
     private OperatorManagementDAO operatorManagementDAO;
-
-
+    
     @Test
     public void testAddOperator() {
         Operator operator = new Operator();

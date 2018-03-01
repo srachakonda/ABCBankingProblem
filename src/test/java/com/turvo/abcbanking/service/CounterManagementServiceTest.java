@@ -15,6 +15,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
@@ -26,7 +27,8 @@ import java.util.List;
 public class CounterManagementServiceTest {
     @Autowired
     private CounterManagementService counterManagementService;
-    private CounterManagementDAO counterManagementDAO = Mockito.mock(CounterManagementDAO.class);
+    @MockBean
+    private CounterManagementDAO counterManagementDAO;
     private Branch branch = new Branch("Jubilee Hills", 1L);
     private List<ServicesOffered> servicesOffered = new ArrayList<>(Arrays.asList(ServicesOffered.DEPOSIT, ServicesOffered.WITHDRAW));
     private Operator operator = new Operator(Role.MANAGER, branch);

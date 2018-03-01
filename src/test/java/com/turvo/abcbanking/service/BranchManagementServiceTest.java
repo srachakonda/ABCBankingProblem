@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
@@ -20,7 +21,8 @@ public class BranchManagementServiceTest {
 
     @Autowired
     private BranchManagementService branchManagementService;
-    private BranchManagementDAO managementDAOmock = Mockito.mock(BranchManagementDAO.class);
+    @MockBean
+    private BranchManagementDAO managementDAOmock;
     private Branch branch1 = new Branch("Jubilee Hills", 1L);
 
     @Test

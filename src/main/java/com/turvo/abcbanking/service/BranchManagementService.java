@@ -10,9 +10,9 @@ import java.util.List;
  * @version $Revision: 1.0$, $Date: 20-Feb-2018
  */
 public interface BranchManagementService {
-    public Branch addBranch(Branch branch);
+    Branch addBranch(Branch branch);
 
-    public List<Branch> getBranches();
+    List<Branch> getBranches();
 
 }
 

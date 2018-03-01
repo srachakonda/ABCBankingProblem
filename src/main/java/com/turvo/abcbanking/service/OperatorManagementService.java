@@ -9,8 +9,8 @@ import java.util.List;
  * @version $Revision: 1.0$, $Date: 20-Feb-2018
  */
 public interface OperatorManagementService {
-    public Operator addOperator(Operator operator);
+    Operator addOperator(Operator operator);
 
-    public List<Operator> getOperators();
+    List<Operator> getOperators();
 
 }
