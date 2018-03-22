@@ -16,6 +16,7 @@ http://localhost:8080/swagger-ui.html
 
 # Class Diagram
 
+![classdiagram](https://user-images.githubusercontent.com/20350389/37763412-fc9d6b8a-2de4-11e8-83aa-1d41e4a70e35.gif)
 
 # RESTful API's
 
