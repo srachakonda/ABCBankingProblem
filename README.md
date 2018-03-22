@@ -16,7 +16,6 @@ http://localhost:8080/swagger-ui.html
 
 # Class Diagram
 
-![abcbanking](https://user-images.githubusercontent.com/20350389/36657638-5a9894a8-1af3-11e8-928b-e4909b940d8f.png)
 
 # RESTful API's
 
