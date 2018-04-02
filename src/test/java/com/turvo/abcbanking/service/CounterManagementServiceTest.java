@@ -37,7 +37,6 @@ public class CounterManagementServiceTest {
 
     private Counter counter = new Counter(servicesOffered, AccountType.PRIORITY, branch, operator, tokens);
 
-
     @Test
     public void testAddCounter() {
         Mockito.when(counterManagementDAO.save(counter)).thenReturn(counter);

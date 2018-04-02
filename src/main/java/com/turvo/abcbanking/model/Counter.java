@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+
 /**
  * @author <a href="sampath.rachakonda@imaginea.com">srachakonda</a>
  * @version $Revision: 1.0$, $Date: 12-Feb-2018
@@ -24,6 +25,9 @@ public class Counter implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column
+    private String counterName;
 
     @ElementCollection
     @Enumerated
@@ -65,7 +69,15 @@ public class Counter implements Serializable {
         this.accountType = accountType;
         this.branch = branch;
         this.operator = operator;
-        this.tokens=tokens;
+        this.tokens = tokens;
+    }
+
+    public String getCounterName() {
+        return counterName;
+    }
+
+    public void setCounterName(String counterName) {
+        this.counterName = counterName;
     }
 
     public Operator getOperator() {
